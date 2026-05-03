@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BigPlanetarium – Explore Our Solar System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Raleway:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --space: #03060f;
+            --deep: #070d1a;
+            --navy: #0b1632;
+            --accent: #f0a500;
+            --gold: #f7c948;
+            --silver: #c8d8f0;
+            --white: #f0f4ff;
+            --muted: #7a93b8;
+            --radius: 12px;
+            --font-head: 'Cinzel', serif;
+            --font-body: 'Raleway', sans-serif;
+            --nav-h: 68px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--space);
+            color: var(--white);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-family: inherit;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background:
+                radial-gradient(1px 1px at 10% 15%, rgba(255, 255, 255, .7) 0%, transparent 100%),
+                radial-gradient(1px 1px at 30% 60%, rgba(255, 255, 255, .5) 0%, transparent 100%),
+                radial-gradient(1px 1px at 55% 20%, rgba(255, 255, 255, .8) 0%, transparent 100%),
+                radial-gradient(1px 1px at 72% 75%, rgba(255, 255, 255, .6) 0%, transparent 100%),
+                radial-gradient(1px 1px at 88% 35%, rgba(255, 255, 255, .9) 0%, transparent 100%),
+                radial-gradient(1.5px 1.5px at 20% 85%, rgba(255, 255, 255, .4) 0%, transparent 100%),
+                radial-gradient(1px 1px at 65% 55%, rgba(255, 255, 255, .5) 0%, transparent 100%),
+                radial-gradient(1px 1px at 43% 90%, rgba(255, 255, 255, .6) 0%, transparent 100%),
+                radial-gradient(2px 2px at 78% 10%, rgba(255, 255, 255, .3) 0%, transparent 100%),
+                radial-gradient(1px 1px at 95% 60%, rgba(255, 255, 255, .7) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            height: var(--nav-h);
+            background: rgba(3, 6, 15, .85);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(240, 165, 0, .18);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5vw;
+            gap: 1rem;
+        }
+
+        .nav-logo {
+            font-family: var(--font-head);
+            font-size: 1.25rem;
+            color: var(--gold);
+            letter-spacing: .12em;
+            white-space: nowrap;
+        }
+
+        .nav-logo span {
+            color: var(--white);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: .25rem;
+            list-style: none;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .nav-links a {
+            font-size: .78rem;
+            font-weight: 600;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--silver);
+            padding: .45rem .7rem;
+            border-radius: 6px;
+            transition: color .2s, background .2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+            background: rgba(240, 165, 0, .08);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            padding: 8px;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--silver);
+            border-radius: 2px;
+            transition: .3s;
+        }
+
+        main {
+            position: relative;
+            z-index: 1;
+        }
+
+        section {
+            padding: 90px 5vw 80px;
+        }
+
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: calc(var(--nav-h) + 40px);
+            background: linear-gradient(160deg, rgba(7, 13, 26, .6) 40%, transparent),
+                url('https://www.pexels.com/photo/photo-of-the-milky-way-and-star-field-19108651/') center/cover no-repeat;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 200px;
+            background: linear-gradient(to bottom, transparent, var(--space));
+            pointer-events: none;
+        }
+
+        .hero-inner {
+            max-width: 700px;
+            animation: fadeUp .9s ease both;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            font-size: .72rem;
+            font-weight: 700;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: rgba(240, 165, 0, .1);
+            border: 1px solid rgba(240, 165, 0, .3);
+            border-radius: 100px;
+            padding: .35rem 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-inner h1 {
+            font-family: var(--font-head);
+            font-size: clamp(2.4rem, 6vw, 4.5rem);
+            line-height: 1.1;
+            color: var(--white);
+            text-shadow: 0 2px 40px rgba(0, 0, 0, .8);
+            margin-bottom: 1.2rem;
+        }
+
+        .hero-inner h1 em {
+            font-style: normal;
+            color: var(--gold);
+        }
+
+        .hero-inner p {
+            font-size: 1.05rem;
+            color: var(--silver);
+            max-width: 540px;
+            margin-bottom: 2rem;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            font-family: var(--font-head);
+            font-size: .85rem;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--space);
+            background: linear-gradient(135deg, var(--gold), var(--accent));
+            padding: .85rem 2rem;
+            border-radius: 6px;
+            transition: transform .2s, box-shadow .2s;
+            box-shadow: 0 4px 24px rgba(240, 165, 0, .3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(240, 165, 0, .45);
+        }
+
+        .section-title {
+            font-family: var(--font-head);
+            font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+            color: var(--white);
+            margin-bottom: .6rem;
+        }
+
+        .section-title span {
+            color: var(--gold);
+        }
+
+        .section-sub {
+            color: var(--muted);
+            font-size: .95rem;
+            max-width: 580px;
+            margin-bottom: 3rem;
+        }
+
+        .divider {
+            width: 48px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 2px;
+            margin: .8rem 0 1.4rem;
+        }
+
+        #about {
+            background: var(--deep);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-img {
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .6);
+            aspect-ratio: 4/3;
+            position: relative;
+        }
+
+        .about-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .about-img::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            border-radius: var(--radius);
+            background: linear-gradient(135deg, rgba(240, 165, 0, .12) 0%, transparent 60%);
+        }
+
+        .about-text p {
+            color: var(--silver);
+            margin-bottom: 1rem;
+        }
+
+        .stat-row {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: left;
+        }
+
+        .stat-num {
+            font-family: var(--font-head);
+            font-size: 2rem;
+            color: var(--gold);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: .8rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .1em;
+        }
+
+        #milkyway {
+            background: linear-gradient(180deg, var(--space) 0%, var(--navy) 100%);
+            text-align: center;
+        }
+
+        .galaxy-banner {
+            width: 100%;
+            max-height: 420px;
+            object-fit: cover;
+            border-radius: var(--radius);
+            margin: 0 auto 3rem;
+            box-shadow: 0 0 80px rgba(240, 165, 0, .15);
+        }
+
+        .milky-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            text-align: left;
+            margin-top: 2rem;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, .04);
+            border: 1px solid rgba(255, 255, 255, .07);
+            border-radius: var(--radius);
+            padding: 1.6rem;
+            transition: border-color .3s, transform .3s;
+        }
+
+        .info-card:hover {
+            border-color: rgba(240, 165, 0, .3);
+            transform: translateY(-4px);
+        }
+
+        .info-card .icon {
+            font-size: 1.8rem;
+            margin-bottom: .8rem;
+        }
+
+        .info-card h3 {
+            font-family: var(--font-head);
+            font-size: .95rem;
+            color: var(--gold);
+            margin-bottom: .5rem;
+        }
+
+        .info-card p {
+            font-size: .88rem;
+            color: var(--muted);
+        }
+
+        #video-section {
+            background: var(--deep);
+        }
+
+        .video-wrap {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .7);
+            max-width: 860px;
+            margin: 0 auto;
+            aspect-ratio: 16/9;
+        }
+
+        .video-wrap iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        #planets {
+            background: var(--space);
+        }
+
+        .planets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .planet-card {
+            border-radius: var(--radius);
+            overflow: hidden;
+            background: var(--navy);
+            border: 1px solid rgba(255, 255, 255, .07);
+            cursor: pointer;
+            transition: transform .3s, box-shadow .3s, border-color .3s;
+            position: relative;
+        }
+
+        .planet-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, .5);
+            border-color: rgba(240, 165, 0, .35);
+        }
+
+        .planet-card:focus-visible {
+            outline: 3px solid var(--gold);
+            outline-offset: 3px;
+        }
+
+        .planet-thumb {
+            width: 100%;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+            transition: transform .4s;
+        }
+
+        .planet-card:hover .planet-thumb {
+            transform: scale(1.04);
+        }
+
+        .planet-info {
+            padding: 1.2rem 1.4rem 1.5rem;
+        }
+
+        .planet-info h3 {
+            font-family: var(--font-head);
+            font-size: 1.05rem;
+            color: var(--gold);
+            margin-bottom: .4rem;
+        }
+
+        .planet-info p {
+            font-size: .82rem;
+            color: var(--muted);
+        }
+
+        .planet-badge {
+            position: absolute;
+            top: .8rem;
+            left: .8rem;
+            font-size: .65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            background: rgba(240, 165, 0, .15);
+            color: var(--accent);
+            border: 1px solid rgba(240, 165, 0, .3);
+            border-radius: 100px;
+            padding: .2rem .7rem;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: rgba(3, 6, 15, .92);
+            backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+            animation: fadeIn .25s ease;
+        }
+
+        .modal {
+            background: var(--navy);
+            border: 1px solid rgba(240, 165, 0, .2);
+            border-radius: 16px;
+            overflow: hidden;
+            max-width: 760px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: scaleIn .28s cubic-bezier(.34, 1.56, .64, 1) both;
+            position: relative;
+        }
+
+        .modal-img {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .modal-title {
+            font-family: var(--font-head);
+            font-size: 1.8rem;
+            color: var(--gold);
+            margin-bottom: .4rem;
+        }
+
+        .modal-sub {
+            color: var(--muted);
+            font-size: .85rem;
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            margin-bottom: 1.2rem;
+        }
+
+        .modal-text {
+            color: var(--silver);
+            font-size: .95rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-facts {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .fact {
+            background: rgba(255, 255, 255, .04);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .fact-label {
+            font-size: .72rem;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            color: var(--muted);
+            margin-bottom: .3rem;
+        }
+
+        .fact-value {
+            font-family: var(--font-head);
+            font-size: 1rem;
+            color: var(--gold);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            z-index: 10;
+            background: rgba(0, 0, 0, .5);
+            border: 1px solid rgba(255, 255, 255, .15);
+            color: var(--white);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background .2s;
+        }
+
+        .modal-close:hover {
+            background: rgba(240, 165, 0, .2);
+        }
+
+        #accessibility {
+            background: var(--deep);
+        }
+
+        .access-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .access-card {
+            background: rgba(255, 255, 255, .03);
+            border: 1px solid rgba(255, 255, 255, .07);
+            border-radius: var(--radius);
+            padding: 1.6rem;
+        }
+
+        .access-card h3 {
+            font-family: var(--font-head);
+            color: var(--gold);
+            font-size: .95rem;
+            margin-bottom: .6rem;
+        }
+
+        .access-card p {
+            color: var(--muted);
+            font-size: .88rem;
+        }
+
+        footer {
+            background: var(--deep);
+            border-top: 1px solid rgba(255, 255, 255, .06);
+            padding: 3rem 5vw;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: var(--font-head);
+            font-size: 1.4rem;
+            color: var(--gold);
+            margin-bottom: .8rem;
+        }
+
+        .footer-nav {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-nav a {
+            font-size: .8rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            transition: color .2s;
+        }
+
+        .footer-nav a:hover {
+            color: var(--gold);
+        }
+
+        footer p {
+            font-size: .78rem;
+            color: var(--muted);
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(.92);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .milky-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .access-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: fixed;
+                top: var(--nav-h);
+                left: 0;
+                right: 0;
+                background: rgba(7, 13, 26, .97);
+                padding: 1.5rem 2rem;
+                gap: .5rem;
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-links li {
+                width: 100%;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: .7rem 0;
+                font-size: .9rem;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .milky-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-facts {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-row {
+                gap: 1.2rem;
+            }
+
+            section {
+                padding: 70px 5vw 60px;
+            }
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 1rem;
+            background: var(--gold);
+            color: var(--space);
+            padding: .5rem 1rem;
+            border-radius: 4px;
+            font-weight: 700;
+            z-index: 999;
+            transition: top .2s;
+        }
+
+        .skip-link:focus {
+            top: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <a class="skip-link" href="#about">Skip to main content</a>
+
+    <nav role="navigation" aria-label="Main navigation">
+        <a href="#hero" class="nav-logo" aria-label="BigPlanetarium home">Big<span>Planetarium</span></a>
+        <button class="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" id="ham">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-links" id="navLinks" role="list">
+            <li><a href="#about">About</a></li>
+            <li><a href="#milkyway">Milky Way</a></li>
+            <li><a href="#video-section">Video</a></li>
+            <li><a href="#planets">Planets</a></li>
+            <li><a href="#accessibility">Accessibility</a></li>
+        </ul>
+    </nav>
+
+    <main>
+
+        <section id="hero" aria-label="Hero">
+            <div class="hero-inner">
+                <span class="hero-tag">🔭 Bristol's Planetarium</span>
+                <h1>Explore the <em>Cosmos</em><br>One Planet at a Time</h1>
+                <p>BigPlanetarium is Bristol's premier space education centre. We believe the universe belongs to
+                    everyone — come discover the planets, stars, and the Milky Way in an exciting, accessible way.</p>
+                <a href="#planets" class="btn-primary" aria-label="Explore the planets">Explore the Planets</a>
+            </div>
+        </section>
+
+        <section id="about" aria-labelledby="about-heading" tabindex="-1">
+            <div class="about-grid">
+                <div class="about-img" role="img"
+                    aria-label="Interior of BigPlanetarium dome at night showing projected stars">
+                    <img src="https://images.pexels.com/photos/14618855/pexels-photo-14618855.jpeg"
+                        alt="Milky Way star field as seen from the planetarium" loading="lazy" />
+                </div>
+                <div class="about-text">
+                    <h2 class="section-title" id="about-heading">About <span>BigPlanetarium</span></h2>
+                    <div class="divider" aria-hidden="true"></div>
+                    <p>We're a Bristol-based planetarium and we love space! We are predominantly an educational
+                        organisation, offering entertainment for the public and for schools of all ages.</p>
+                    <p>Our mission is simple: <strong>science is for everyone</strong>. No jargon, no gatekeeping — just
+                        wonder, curiosity, and the breathtaking scale of the universe explained in a way anyone can
+                        enjoy.</p>
+                    <p>From stunning dome projections to hands-on exhibits, every visit promises something new to
+                        discover.</p>
+                    <div class="stat-row" role="list" aria-label="Key statistics">
+                        <div class="stat" role="listitem">
+                            <span class="stat-num" aria-hidden="true">8</span>
+                            <span class="stat-label">Planets Covered</span>
+                        </div>
+                        <div class="stat" role="listitem">
+                            <span class="stat-num" aria-hidden="true">50K+</span>
+                            <span class="stat-label">Visitors Per Year</span>
+                        </div>
+                        <div class="stat" role="listitem">
+                            <span class="stat-num" aria-hidden="true">12+</span>
+                            <span class="stat-label">School Programs</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="milkyway" aria-labelledby="mw-heading">
+            <h2 class="section-title" id="mw-heading">Our Home <span>Galaxy</span></h2>
+            <div class="divider" aria-hidden="true" style="margin:auto"></div>
+            <p class="section-sub" style="margin:1rem auto 2.5rem">The Milky Way is a barred spiral galaxy containing
+                over 200 billion stars — including our own Sun. Stretching roughly 100,000 light-years across, it's the
+                cosmic neighbourhood we call home.</p>
+
+            <img src="https://images.pexels.com/photos/12491599/pexels-photo-12491599.jpeg"
+                alt="Artistic graphic representation of our Solar System within the Milky Way galaxy"
+                class="galaxy-banner" loading="lazy" />
+
+            <div class="milky-grid">
+                <article class="info-card">
+                    <div class="icon" aria-hidden="true">🌌</div>
+                    <h3>Size &amp; Scale</h3>
+                    <p>The Milky Way spans approximately 100,000 light-years in diameter and is estimated to contain
+                        100–400 billion stars.</p>
+                </article>
+                <article class="info-card">
+                    <div class="icon" aria-hidden="true">🌀</div>
+                    <h3>Shape</h3>
+                    <p>It's a barred spiral galaxy — our Solar System sits roughly 26,000 light-years from the galactic
+                        centre in the Orion Arm.</p>
+                </article>
+                <article class="info-card">
+                    <div class="icon" aria-hidden="true">⏳</div>
+                    <h3>Age</h3>
+                    <p>The Milky Way is around 13.6 billion years old, making it nearly as old as the universe itself,
+                        which is 13.8 billion years.</p>
+                </article>
+                <article class="info-card">
+                    <div class="icon" aria-hidden="true">🕳️</div>
+                    <h3>Black Hole</h3>
+                    <p>At the galactic centre lies Sagittarius A*, a supermassive black hole about 4 million times the
+                        mass of our Sun.</p>
+                </article>
+                <article class="info-card">
+                    <div class="icon" aria-hidden="true">🔆</div>
+                    <h3>Our Sun</h3>
+                    <p>The Sun completes one orbit around the Milky Way centre — a "cosmic year" — every 225–250 million
+                        years.</p>
+                </article>
+                <article class="info-card">
+                    <div class="icon" aria-hidden="true">🌠</div>
+                    <h3>Neighbouring Galaxies</h3>
+                    <p>The Andromeda Galaxy is our nearest large neighbour, approximately 2.537 million light-years
+                        away, and on course to merge with us in ~4.5 billion years.</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="video-section" aria-labelledby="vid-heading">
+            <h2 class="section-title" id="vid-heading">Watch &amp; <span>Learn</span></h2>
+            <div class="divider" aria-hidden="true"></div>
+            <p class="section-sub">Dive deeper into the wonders of our solar system with this curated video from our
+                education partners.</p>
+            <div class="video-wrap">
+                <iframe src="https://www.youtube.com/embed/wEZBNsU4dMU" title="Educational video about the Solar System"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen loading="lazy"></iframe>
+            </div>
+        </section>
+
+        <section id="planets" aria-labelledby="planets-heading">
+            <h2 class="section-title" id="planets-heading">The <span>Planets</span></h2>
+            <div class="divider" aria-hidden="true"></div>
+            <p class="section-sub">Click any planet to discover detailed facts, its distance from the Sun, and what
+                makes it unique.</p>
+
+            <div class="planets-grid" role="list">
+
+            </div>
+        </section>
+
+        <section id="accessibility" aria-labelledby="acc-heading">
+            <h2 class="section-title" id="acc-heading">Designed for <span>Everyone</span></h2>
+            <div class="divider" aria-hidden="true"></div>
+            <p class="section-sub">We believe space is for all. Here's how we make BigPlanetarium accessible for every
+                visitor.</p>
+            <div class="access-grid">
+                <div class="access-card">
+                    <h3>⌨️ Keyboard Navigation</h3>
+                    <p>Every interactive element can be reached and activated using a keyboard alone. Planet cards are
+                        fully focusable and operable without a mouse.</p>
+                </div>
+                <div class="access-card">
+                    <h3>🖼️ Descriptive Alt Text</h3>
+                    <p>All images include meaningful alternative text so screen reader users get the same rich context
+                        as sighted visitors.</p>
+                </div>
+                <div class="access-card">
+                    <h3>🎨 Colour Contrast</h3>
+                    <p>Text and UI elements meet WCAG AA contrast ratio requirements (4.5:1 minimum), ensuring
+                        readability for users with low vision.</p>
+                </div>
+                <div class="access-card">
+                    <h3>📐 Responsive &amp; Scalable</h3>
+                    <p>The site works on all screen sizes — from phone to desktop — and supports browser text zoom up to
+                        200% without losing content or function.</p>
+                </div>
+                <div class="access-card">
+                    <h3>🏷️ ARIA Landmarks</h3>
+                    <p>Semantic HTML5 landmarks (nav, main, section, footer) and ARIA labels help screen readers
+                        understand page structure instantly.</p>
+                </div>
+                <div class="access-card">
+                    <h3>⏭️ Skip Navigation</h3>
+                    <p>A visible skip link at the top lets keyboard and screen reader users jump directly to the main
+                        content, bypassing the navigation bar.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer role="contentinfo">
+        <div class="footer-logo" aria-label="BigPlanetarium">BigPlanetarium</div>
+        <nav class="footer-nav" aria-label="Footer navigation">
+            <a href="#about">About</a>
+            <a href="#milkyway">Milky Way</a>
+            <a href="#video-section">Video</a>
+            <a href="#planets">Planets</a>
+            <a href="#accessibility">Accessibility</a>
+        </nav>
+        <p>© 2025 BigPlanetarium, Bristol. All rights reserved. | Educational prototype.</p>
+    </footer>
+
+    <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle"
+        aria-describedby="modalDesc">
+        <div class="modal" id="modal">
+            <button class="modal-close" id="modalClose" aria-label="Close planet information panel">✕</button>
+            <img id="modalImg" src="" alt="" class="modal-img" />
+            <div class="modal-body">
+                <h2 class="modal-title" id="modalTitle"></h2>
+                <p class="modal-sub" id="modalSub"></p>
+                <p class="modal-text" id="modalDesc"></p>
+                <div class="modal-facts" id="modalFacts" aria-label="Planet facts"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        const planets = [
+            {
+                name: "Mercury",
+                badge: "Closest to Sun",
+                img: "https://science.nasa.gov/wp-content/uploads/2023/05/mercury-from-messenger-pia15160-1920x640-1.jpg",
+                alt: "Mercury photographed by the MESSENGER spacecraft, showing its heavily cratered grey surface",
+                blurb: "The smallest and innermost planet in our Solar System, Mercury has almost no atmosphere.",
+                description: "Mercury is the smallest planet in our Solar System and the one closest to the Sun. Despite being close to the Sun, it's not the hottest — Venus wins that title thanks to its thick greenhouse atmosphere. Mercury has no moons and almost no atmosphere, meaning temperatures swing wildly from 430°C during the day to -180°C at night. Its surface is heavily cratered, resembling our Moon.",
+                facts: [
+                    { label: "Distance from Sun", value: "57.9 million km" },
+                    { label: "Day length", value: "59 Earth days" },
+                    { label: "Year length", value: "88 Earth days" },
+                    { label: "Moons", value: "0" },
+                ]
+            },
+            {
+                name: "Venus",
+                badge: "Hottest Planet",
+                img: "https://science.nasa.gov/wp-content/uploads/2023/05/venus-mariner-10-pia23791-1920x640-1.jpg",
+                alt: "Venus captured by Mariner 10 spacecraft, showing its thick swirling cloud cover in golden tones",
+                blurb: "The hottest planet, wrapped in a thick toxic atmosphere of carbon dioxide and sulphuric acid clouds.",
+                description: "Venus is often called Earth's twin because of their similar size and composition — but its surface is hellish. With surface temperatures averaging 465°C, it is the hottest planet due to a runaway greenhouse effect. Its thick atmosphere of carbon dioxide traps heat, and it rains sulphuric acid in its upper clouds. Venus also rotates backwards compared to most planets.",
+                facts: [
+                    { label: "Distance from Sun", value: "108.2 million km" },
+                    { label: "Day length", value: "243 Earth days" },
+                    { label: "Year length", value: "225 Earth days" },
+                    { label: "Moons", value: "0" },
+                ]
+            },
+            {
+                name: "Earth",
+                badge: "Our Home",
+                img: "https://images.pexels.com/photos/30596270/pexels-photo-30596270.jpeg",
+                alt: "Stunning view of Earth from space showing blue oceans, white clouds, and green landmasses",
+                blurb: "The only planet known to harbour life, with liquid water oceans and a breathable atmosphere.",
+                description: "Earth is our home and the only planet known to support life. It is the fifth largest planet and the densest. About 71% of Earth's surface is covered in water, which is essential to the life that thrives here. Earth has one natural satellite — the Moon — which stabilises our planet's axial tilt and drives ocean tides. Earth's magnetic field protects us from harmful solar radiation.",
+                facts: [
+                    { label: "Distance from Sun", value: "149.6 million km" },
+                    { label: "Day length", value: "24 hours" },
+                    { label: "Year length", value: "365.25 days" },
+                    { label: "Moons", value: "1 (The Moon)" },
+                ]
+            },
+            {
+                name: "Mars",
+                badge: "The Red Planet",
+                img: "https://science.nasa.gov/wp-content/uploads/2024/03/pia04304-mars.jpg",
+                alt: "Mars global colour view showing the red dusty surface and polar ice caps",
+                blurb: "The Red Planet, home to the tallest volcano and deepest canyon in the Solar System.",
+                description: "Mars is the fourth planet from the Sun and is nicknamed the Red Planet because of iron oxide (rust) on its surface. It hosts Olympus Mons, the largest volcano in the Solar System — nearly three times the height of Mount Everest. Mars has a thin atmosphere of carbon dioxide, two small moons (Phobos and Deimos), and is a major target for future human exploration.",
+                facts: [
+                    { label: "Distance from Sun", value: "227.9 million km" },
+                    { label: "Day length", value: "24 hrs 37 min" },
+                    { label: "Year length", value: "687 Earth days" },
+                    { label: "Moons", value: "2 (Phobos & Deimos)" },
+                ]
+            },
+            {
+                name: "Jupiter",
+                badge: "Largest Planet",
+                img: "https://science.nasa.gov/wp-content/uploads/2024/03/jupiter-marble-pia22946.jpg",
+                alt: "Jupiter full disk marble view showing colourful cloud bands and the Great Red Spot storm",
+                blurb: "A gas giant so massive it could fit all other planets inside it twice over.",
+                description: "Jupiter is the largest planet in our Solar System — so big that all other planets could fit inside it. It's a gas giant with no solid surface, composed mainly of hydrogen and helium. Its most iconic feature is the Great Red Spot, a storm that has been raging for over 350 years. Jupiter has 95 known moons, including the four large Galilean moons discovered in 1610.",
+                facts: [
+                    { label: "Distance from Sun", value: "778.5 million km" },
+                    { label: "Day length", value: "9.9 hours" },
+                    { label: "Year length", value: "11.9 Earth years" },
+                    { label: "Moons", value: "95 known" },
+                ]
+            },
+            {
+                name: "Saturn",
+                badge: "The Ringed Giant",
+                img: "https://science.nasa.gov/wp-content/uploads/2023/05/saturn-farewell-pia21345-sse-banner-1920x640-1.jpg",
+                alt: "Saturn photographed by the Cassini spacecraft showing its iconic ring system against black space",
+                blurb: "Famous for its spectacular ring system, Saturn is the least dense planet — it could float on water.",
+                description: "Saturn is the sixth planet from the Sun and is best known for its stunning ring system, composed mainly of ice and rock fragments. It is the least dense planet — less dense than water. Like Jupiter, it is a gas giant made mostly of hydrogen and helium. Saturn has 146 known moons, including Titan, which has a thick atmosphere and liquid methane lakes.",
+                facts: [
+                    { label: "Distance from Sun", value: "1.43 billion km" },
+                    { label: "Day length", value: "10.7 hours" },
+                    { label: "Year length", value: "29.4 Earth years" },
+                    { label: "Moons", value: "146 known" },
+                ]
+            },
+            {
+                name: "Uranus",
+                badge: "Tilted Ice Giant",
+                img: "https://science.nasa.gov/wp-content/uploads/2023/06/uranus-pia18182-1920x640-1-jpg.webp",
+                alt: "Uranus shown as a pale blue-green sphere, captured by Voyager 2 during its flyby",
+                blurb: "An ice giant that rotates on its side, with an extreme axial tilt of 98 degrees.",
+                description: "Uranus is the seventh planet from the Sun and an ice giant, unlike Jupiter and Saturn's gas compositions. Most unusually, Uranus is tilted on its side — its axial tilt is 97.8°, meaning it essentially rolls around the Sun. It appears blue-green because of methane in its atmosphere. Uranus has 13 known rings and 28 known moons, all named after characters from Shakespeare and Alexander Pope.",
+                facts: [
+                    { label: "Distance from Sun", value: "2.87 billion km" },
+                    { label: "Day length", value: "17.2 hours" },
+                    { label: "Year length", value: "84 Earth years" },
+                    { label: "Moons", value: "28 known" },
+                ]
+            },
+            {
+                name: "Neptune",
+                badge: "Farthest Planet",
+                img: "https://science.nasa.gov/wp-content/uploads/2023/06/neptune-pia01492-1920x640-2-jpg.webp",
+                alt: "Neptune photographed by Voyager 2 showing its deep blue colour and white cloud streaks",
+                blurb: "The windiest and most distant planet, with storms reaching 2,000 km/h.",
+                description: "Neptune is the eighth and farthest known planet in our Solar System. It is an ice giant with a strikingly deep blue colour caused by methane absorbing red light. Neptune has the strongest winds of any planet — reaching over 2,000 km/h. Its largest moon, Triton, orbits in the opposite direction to Neptune's rotation and is thought to be a captured Kuiper Belt object. Neptune was predicted mathematically before it was actually observed.",
+                facts: [
+                    { label: "Distance from Sun", value: "4.5 billion km" },
+                    { label: "Day length", value: "16.1 hours" },
+                    { label: "Year length", value: "165 Earth years" },
+                    { label: "Moons", value: "16 known" },
+                ]
+            },
+        ];
+
+        /* ── RENDER PLANET CARDS ────────────────────────────────── */
+        const grid = document.querySelector('.planets-grid');
+        planets.forEach((p, i) => {
+            const card = document.createElement('article');
+            card.className = 'planet-card';
+            card.setAttribute('role', 'listitem');
+            card.setAttribute('tabindex', '0');
+            card.setAttribute('aria-label', `${p.name}: ${p.blurb}`);
+            card.innerHTML = `
+    <span class="planet-badge" aria-hidden="true">${p.badge}</span>
+    <img class="planet-thumb" src="${p.img}" alt="${p.alt}" loading="lazy" />
+    <div class="planet-info">
+      <h3>${p.name}</h3>
+      <p>${p.blurb}</p>
+    </div>
+  `;
+            card.addEventListener('click', () => openModal(i));
+            card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(i); } });
+            grid.appendChild(card);
+        });
+
+        /* ── MODAL ──────────────────────────────────────────────── */
+        const overlay = document.getElementById('modalOverlay');
+        const modalClose = document.getElementById('modalClose');
+        let lastFocused = null;
+
+        function openModal(i) {
+            const p = planets[i];
+            lastFocused = document.activeElement;
+            document.getElementById('modalImg').src = p.img;
+            document.getElementById('modalImg').alt = p.alt;
+            document.getElementById('modalTitle').textContent = p.name;
+            document.getElementById('modalSub').textContent = p.badge;
+            document.getElementById('modalDesc').textContent = p.description;
+            const facts = document.getElementById('modalFacts');
+            facts.innerHTML = p.facts.map(f => `
+    <div class="fact">
+      <div class="fact-label">${f.label}</div>
+      <div class="fact-value">${f.value}</div>
+    </div>
+  `).join('');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+            modalClose.focus();
+        }
+
+        function closeModal() {
+            overlay.classList.remove('open');
+            document.body.style.overflow = '';
+            if (lastFocused) lastFocused.focus();
+        }
+
+        modalClose.addEventListener('click', closeModal);
+        overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+        /* ── HAMBURGER ──────────────────────────────────────────── */
+        const ham = document.getElementById('ham');
+        const navLinks = document.getElementById('navLinks');
+        ham.addEventListener('click', () => {
+            const open = navLinks.classList.toggle('open');
+            ham.setAttribute('aria-expanded', open);
+        });
+        navLinks.querySelectorAll('a').forEach(a => {
+            a.addEventListener('click', () => {
+                navLinks.classList.remove('open');
+                ham.setAttribute('aria-expanded', 'false');
+            });
+        });
+    </script>
+</body>
+
+</html>
